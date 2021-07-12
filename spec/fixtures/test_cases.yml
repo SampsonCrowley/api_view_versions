@@ -1,45 +1,60 @@
-# http_header_strategy
 - request:
     headers:
-      HTTP_ACCEPT: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8;api_version=1"
-  response: "1"
-
-- request:
-    headers:
-      HTTP_ACCEPT: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8;api_version=2"
-  response: "2"
-
-# request_parameter_strategy
-- request:
-    method: post
-    params:
-      api_version: "1"
-  response: "1"
-
-- request:
-    method: post
-    params:
-      api_version: "2"
-  response: "2"
-
-# query_parameter_strategy
-- request:
-    params:
-      api_version: "1"
-  response: "1"
-
-- request:
-    params:
-      api_version: "2"
-  response: "2"
-
-# http_header_strategy
-- request:
-    headers:
-      HTTP_API_VERSION: "1"
-  response: "1"
+      HTTP_ACCEPT: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8;version=1"
+  response: null
+  response_short: null
+  response_short: null
 
 - request:
     headers:
-      HTTP_API_VERSION: "2"
+      HTTP_ACCEPT: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8;version=2"
+  response: null
+  response_short: null
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;q=0.8;version=2"
   response: "2"
+  response_short: "2"
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;version=2"
+  response: "2"
+  response_short: "2"
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;version=1,text/vnd.myapp+html;version=2"
+  response: "1"
+  response_short: "1"
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;version=1;q=0.7,text/vnd.myapp+html;version=2"
+  response: "2"
+  response_short: "1"
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;version=1;q=0.7,text/vnd.myapp+html;version=2;q=0.9,text/vnd.myapp+html;version=3;q=0.8"
+  response: "2"
+  response_short: "1"
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;version=1;q=0.7,text/vnd.myapp+html;version=2;q=0.9,text/vnd.myapp+html;version=3;q=0.9"
+  response: "2"
+  response_short: "1"
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;version=1;q=0.7,text/vnd.myapp+html;version=2;q=0.9,text/vnd.myapp+html;version=3"
+  response: "3"
+  response_short: "1"
+
+- request:
+    headers:
+      HTTP_ACCEPT: "text/vnd.myapp+html;version=1;q=0.7,text/vnd.myapp+html;version=2;q=0.7,text/vnd.myapp+html;version=3;q=0.9"
+  response: "3"
+  response_short: "1"

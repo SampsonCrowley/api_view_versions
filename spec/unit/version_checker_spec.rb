@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VersionCake::VersionChecker do
+describe ApiViewVersions::VersionChecker do
   let(:resource) do
     double(
       supported_versions: [5,6],
@@ -10,7 +10,7 @@ describe VersionCake::VersionChecker do
   end
   let(:version) { }
   subject do
-    checker = VersionCake::VersionChecker.new(version, resource)
+    checker = ApiViewVersions::VersionChecker.new(version, resource)
     checker.execute
   end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VersionCake::VersionedResource do
+describe ApiViewVersions::VersionedResource do
 
   let(:resource) { described_class.new('hello/123', [1,2], [3], [4,5,6])}
 
@@ -12,7 +12,7 @@ describe VersionCake::VersionedResource do
     context 'when given out of order' do
       let(:resource) { described_class.new('hello/123', [1,2], [3], [7,6,4,5])}
 
-      it 'order them' do
+      it 'sorts them' do
         is_expected.to match_array (3..7).to_a
       end
     end

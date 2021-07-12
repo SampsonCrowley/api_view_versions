@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe VersionCake::VersionContext do
+describe ApiViewVersions::VersionContext do
   let(:resource) do
     double(
-        latest_version: 8,
-        supported_versions: [5,6,7,8],
-        deprecated_versions: [4],
-        available_versions: [4,5,6,7,8],
-        obsolete_versions: [2,3]
+      latest_version: 8,
+      supported_versions: [5,6,7,8],
+      deprecated_versions: [4],
+      available_versions: [4,5,6,7,8],
+      obsolete_versions: [2,3]
     )
   end
   let(:result) { :supported }

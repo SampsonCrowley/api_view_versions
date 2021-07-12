@@ -5,7 +5,7 @@ describe RendersController, type: :controller do
 
   context '#index' do
     render_views
-    let(:config) { VersionCake.config }
+    let(:config) { ApiViewVersions.config }
     before { set_request_version 'renders', request_version, config }
     before { response_body }
 
@@ -41,14 +41,14 @@ describe RendersController, type: :controller do
         let(:request_version) { nil }
 
         # TODO: Restructure
-        # Need a better way to stub/unstub the `VersionCake.config` that generates
+        # Need a better way to stub/unstub the `ApiViewVersions.config` that generates
         # the context and is used in the controller.
         let(:config) do
-          VersionCake.config.tap do |config|
+          ApiViewVersions.config.tap do |config|
             config.missing_version = :unversioned_template
           end
         end
-        after { VersionCake.config.missing_version = nil }
+        after { ApiViewVersions.config.missing_version = nil }
         # /TODO
 
         it { expect(controller.request_version).to eq nil }
@@ -76,25 +76,25 @@ describe RendersController, type: :controller do
     context 'with a version larger than the supported versions' do
       before { set_version_context :version_too_high }
 
-      it { expect { response_body }.to raise_error VersionCake::UnsupportedVersionError }
+      it { expect { response_body }.to raise_error ApiViewVersions::UnsupportedVersionError }
     end
 
     context 'with a version lower than the supported versions' do
       before { set_version_context :version_too_low }
 
-      it { expect { response_body }.to raise_error VersionCake::UnsupportedVersionError }
+      it { expect { response_body }.to raise_error ApiViewVersions::UnsupportedVersionError }
     end
 
     context 'with an invalid version' do
       before { set_version_context :version_invalid }
 
-      it { expect { response_body }.to raise_error VersionCake::UnsupportedVersionError }
+      it { expect { response_body }.to raise_error ApiViewVersions::UnsupportedVersionError }
     end
 
     context 'with an obsolete version' do
       before { set_version_context :obsolete }
 
-      it { expect { response_body }.to raise_error VersionCake::ObsoleteVersionError }
+      it { expect { response_body }.to raise_error ApiViewVersions::ObsoleteVersionError }
     end
   end
 end

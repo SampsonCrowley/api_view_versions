@@ -3,9 +3,12 @@ require './spec/rails_helper'
 describe ActionView::Base do
   let(:path) { ActionView::FileSystemResolver.new('./spec/fixtures') }
   let(:view_paths) { ActionView::PathSet.new([path]) }
-  let(:view) { ActionView::Base.new(view_paths) }
+  let(:view) do
+    klass = ActionView::Base.respond_to?(:with_empty_template_cache) ? ActionView::Base.with_empty_template_cache : ActionView::Base
+    klass.new(ActionView::LookupContext.new(view_paths), {}, nil)
+  end
   let(:version_override) { nil }
-  subject { view.render(template: 'templates/versioned', versions: version_override) }
+  subject { view.render(template: 'templates/versioned', versions: version_override)  }
 
   context 'with a 0 version' do
     before { view.lookup_context.versions = [:v0] }

@@ -2,12 +2,28 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../test_app/config/environment.rb', __FILE__)
 require 'rails/all'
-
+require 'jbuilder'
 require 'rspec/rails'
+require 'api_view_versions/test_helpers'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 # Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+if RUBY_VERSION>='2.6.0'
+  if Rails.version < '5'
+    class ActionController::TestResponse < ActionDispatch::TestResponse
+      def recycle!
+        # hack to avoid MonitorMixin double-initialize error:
+        @mon_mutex_owner_object_id = nil
+        @mon_mutex = nil
+        initialize
+      end
+    end
+  else
+    puts "Monkeypatch for ActionController::TestResponse no longer needed"
+  end
+end
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -37,5 +53,5 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.include VersionCake::TestHelpers, type: :controller
+  config.include ApiViewVersions::TestHelpers, type: :controller
 end

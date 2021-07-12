@@ -6,7 +6,7 @@ module RendersTest
   class Application < Rails::Application
 
     config.secret_key_base = "secret"
-    config.eager_load = false
+    config.eager_load = true
 
     config.active_support.deprecation = :stderr
     config.generators do |g|

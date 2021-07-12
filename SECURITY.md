@@ -6,4 +6,4 @@ Only the latest major version will be supported for security patches. We may con
 
 ## Reporting a Vulnerability
 
-If you think you have a security vulnerability, please submit the issue and the details to https://hackerone.com/versioncake
+If you think you have a security vulnerability, please submit the issue and the details to github issues.

@@ -1,13 +1,11 @@
-![Version Cake](https://raw.github.com/alicial/versioncake/master/images/versioncake-logo450x100.png)
+![Ruby](https://github.com/SampsonCrowley/api_view_versions/workflows/Ruby/badge.svg?branch=master)
+[![Code Climate](https://codeclimate.com/github/SampsonCrowley/api_view_versions.png)](https://codeclimate.com/github/SampsonCrowley/api_view_versions)
+[![Coverage Status](https://coveralls.io/repos/SampsonCrowley/api_view_versions/badge.png?branch=master)](https://coveralls.io/r/SampsonCrowley/api_view_versions)
+[![Gem Version](https://badge.fury.io/rb/api_view_versions.png)](http://badge.fury.io/rb/api_view_versions)
 
-![Ruby](https://github.com/bwillis/versioncake/workflows/Ruby/badge.svg?branch=master)
-[![Code Climate](https://codeclimate.com/github/bwillis/versioncake.png)](https://codeclimate.com/github/bwillis/versioncake)
-[![Coverage Status](https://coveralls.io/repos/bwillis/versioncake/badge.png?branch=master)](https://coveralls.io/r/bwillis/versioncake)
-[![Gem Version](https://badge.fury.io/rb/versioncake.png)](http://badge.fury.io/rb/versioncake)
+forked from [VersionCake](https://github.com/bwillis/versioncake)
 
-Co-authored by Ben Willis ([bwillis](https://github.com/bwillis/)) and Jim Jones ([aantix](https://github.com/aantix)).
-
-Version Cake is an unobtrusive way to version APIs in your Rails app.
+API View Versions is an Opinionated and Slimmed down Fork of [Version Cake](https://github.com/bwillis/versioncake)
 
 - Easily version any view with their API version:
 
@@ -19,7 +17,6 @@ app/views/posts/
  - index.json.v4.jbuilder
 ```
 - Gracefully degrade requests to the latest supported version
-- Clients can request API versions through different strategies
 - Dry your controller logic with exposed helpers
 
 Check out https://github.com/bwillis/350-rest-api-versioning for a comparison of traditional versioning approaches and a versioncake implementation.
@@ -27,64 +24,28 @@ Check out https://github.com/bwillis/350-rest-api-versioning for a comparison of
 ## Install
 
 ```
-gem install versioncake
-rails g versioncake:install
+gem install api_view_versions
+rails g api_view_versions:install
 ```
 
 ### Requirements
 
-| Version | Rails 3.2 Support? | Rails 4 Support? | Rails >4.1 Support? | Rails >5 Support? | Rails >5.2 Support? | Rails 6 Support? | [Rails API](https://github.com/rails-api/rails-api) 0.2 Support? |
-| -------:|:---------:| -------:| -------:| -------:| -------:| -------:| -------:|
-| [1.0](CHANGELOG.md#100-march-14-2013) | Yes       | No      | No      | No   | No  | No  | No   |
-| [1.1](CHANGELOG.md#110-may-18-2013)   | Yes       | No      | No      | No   | No  | No  | No   |
-| [1.2](CHANGELOG.md#120-may-26-2013)   | Yes       | Yes     | No      | No   | No  | No  | No   |
-| [1.3](CHANGELOG.md#130-sept-26-2013)  | Yes       | Yes     | No      | No   | No  | No  | No   |
-| [>2.0](CHANGELOG.md#200-feb-6-2014)   | Yes       | Yes     | Yes     | No   | No  | No  | No   |
-| [>2.4](CHANGELOG.md#200-feb-6-2014)   | Yes       | Yes     | Yes     | No   | No  | No  | Yes  |
-| [>3.0](CHANGELOG.md#300-aug-3-2015)   | Yes       | Yes     | Yes     | Yes  | No  | No  | Yes  |
-| [>3.3](CHANGELOG.md#330-may-7-2017)   | Yes       | Yes     | Yes     | Yes  | Yes | No  | Yes  |
-| [>4.0](CHANGELOG.md)                  | No        | No      | Yes     | Yes  | Yes | Yes | Yes  |
+| Version             | Rails >4.2 Support? | Rails >5 Support? | Rails >5.2 Support? | Rails 6 Support? | [Rails API](https://github.com/rails-api/rails-api) 0.2 Support? |
+| -------------------:|:-------------------:| -----------------:| -------------------:| ----------------:| -------------------------:|
+| [1.0](CHANGELOG.md) | Yes                 | Yes               | Yes                 | Yes              | Yes                       |
 
-## Upgrade v2.0 -> v3.0
 
-### Accept header name changes
+### Configuration Options
 
-The default accept header was changed from 'X-API-Version' to 'API-Version'. If you require the 'X-' or some other variant, you can specify a custom strategy as outlined in Extraction Strategy section below.
+The configuration options are:
 
-### Configuration changes
-
-Configuration is now done with an initializer-you can generate a default one with `rails g versioncake:install` and then modify the generated file to match your configuration.
-
-### Configuration changes
-
-The configuration options for Version Cake have changed:
-
-| Old Name                                     | New Name               |
-| -------------------------------------------- | ---------------------- |
-| config.versioncake.supported_version_numbers | config.resources       |
-| config.versioncake.default_version           | config.missing_version |
-
-## Upgrade v1.* -> v2.0
-
-### Filename changes
-The major breaking change to require a bump to v2.0 was the order of the extensions. To avoid priority issues with the format (#14), the version number and the format have been swapped.
-
-`index.v1.json.jbuilder` -> `index.json.v1.jbuilder`
-
-To make it easier to upgrade, run the following command to automatically rename these files:
-
-`versioncake migrate` or `versioncake migrate path/to/views`
-
-### Configuration changes
-
-The configuration options for Version Cake have been namespaced and slightly renamed. The following is a mapping of the old names to the new names:
-
-| Old Name | New Name |
-| --------------------------------------- | -------------------------------------------- |
-| config.view_versions                    | config.versioncake.supported_version_numbers |
-| config.view_version_extraction_strategy | config.versioncake.extraction_strategy       |
-| config.view_version_string              | config.versioncake.version_key               |
-| config.default_version                  | config.versioncake.default_version           |
+| New Name                 |
+| ------------------------ |
+| config.resources         |
+| config.vendor_string     |
+| config.missing_version   |
+| config.mime_types        |
+| config.performance_mode  |
 
 ## Example
 
@@ -92,11 +53,12 @@ In this simple example we will outline the code that is introduced to support a 
 
 ### config/application.rb
 ```ruby
-VersionCake.setup do |config|
+ApiViewVersions.setup do |config|
   config.resources do |r|
     r.resource %r{.*}, [], [], (1..4)
   end
-  config.extraction_strategy = :query_parameter # for simplicity
+  # ACCEPT application/vnd.mycompany+json; version=1
+  config.version_key = "mycompany"
   config.missing_version = 4
 end
 ```
@@ -131,23 +93,26 @@ Notice the version numbers are denoted by the "v{version number}" extension with
 #### views/posts/index.json.v1.jbuilder
 ```ruby
 json.array!(@posts) do |post|
-    json.(post, :id, :title)
+  json.(post, :id, :title)
 end
 ```
 
 #### views/posts/index.json.v4.jbuilder
 ```ruby
 json.array!(@posts) do |post|
-    json.(post, :id, :title)
-    json.comments post.comments, :id, :text
+  json.(post, :id, :title)
+  json.comments post.comments, :id, :text
 end
 ```
 
 ### Sample Output
 
-When a version is specified for which a view doesn't exist, the request degrades and renders the next lowest version number to ensure the API's backwards compatibility.  In the following case, since views/posts/index.json.v3.jbuilder doesn't exist, views/posts/index.json.v1.jbuilder is rendered instead.
+When a version is specified for which a view doesn't exist, the request degrades and renders the next lowest version number to ensure the API's backwards compatibility.  In the following case, since views/posts/index.json.v3.jbuilder doesn't exist, and neither does views/posts/index.json.v2.jbuilde, views/posts/index.json.v1.jbuilder is rendered.
 
-#### http://localhost:3000/posts.json?api_version=3
+(Side note: even though the comments are included for v3 in the controller, the view does not use them here, since only v4 has a view that supports them)
+
+#### http://localhost:3000/posts.json
+#### ACCEPT application/vnd.mycompany+json; version=3
 ```javascript
 [
   {
@@ -165,10 +130,10 @@ When a version is specified for which a view doesn't exist, the request degrades
 ]
 ```
 
-
 For a given request, if we specify the version number, and that version of the view exists, that version specific view version will be rendered.  In the below case, views/posts/index.json.v1.jbuilder is rendered.
 
-#### http://localhost:3000/posts.json?api_version=2 or http://localhost:3000/posts.json?api_version=1
+#### http://localhost:3000/posts.json
+#### ACCEPT application/vnd.mycompany+json; version=1
 ```javascript
 [
   {
@@ -190,6 +155,7 @@ For a given request, if we specify the version number, and that version of the v
 When no version is specified, the configured `missing_version` will be used to render a view.  In this case, views/posts/index.json.v4.jbuilder.
 
 #### http://localhost:3000/posts.json
+#### ACCEPT application/json
 ```javascript
 [
   {
@@ -222,7 +188,7 @@ When no version is specified, the configured `missing_version` will be used to r
 ## How to use
 
 ### Configuration
-The configuration lives in `config/initializers/versioncake.rb`.
+The configuration lives in `config/initializers/api_view_versions.rb`.
 
 #### Versioned Resources
 Each individual resource uri can be identified by a regular expression. For each one it can be customized to have obsolete, deprecated, supported versions.
@@ -241,31 +207,14 @@ Each individual resource uri can be identified by a regular expression. For each
 
 #### Extraction Strategy
 
-You can also define the way to extract the version. The `extraction_strategy` allows you to set one of the default strategies or provide a proc to set your own. You can also pass it a prioritized array of the strategies.
-```ruby
-config.extraction_strategy = :query_parameter # [:http_header, :http_accept_parameter]
-```
-These are the available strategies:
+Unlike [Version Cake](https://github.com/bwillis/versioncake), this gem only implements the HTTP Accept header strategy.
 
-Strategy | Description | Example
---- | --- | ---
-:query_parameter | version in the url query parameter, for testing or to override for special case | `http://localhost:3000/posts.json?api_version=1`  (This is the default.)
-:path_parameter | version in the url path parameter | `api/v:api_version/`
-:request_parameter | version that is sent in the body of the request | Good for testing.
-:http_header | Api version HTTP header | `API-Version: 1`
-:http_accept_parameter | HTTP Accept header | `Accept: application/xml; api_version=1` [why do this?](http://blog.steveklabnik.com/posts/2011-07-03-nobody-understands-rest-or-http#i_want_my_api_to_be_versioned)
-custom | takes the request object and must return an integer | lambda {&#124;request&#124; request.headers["HTTP_X_MY_VERSION"].to_i } or class ExtractorStrategy; def execute(request);end;end
+Clients send an HTTP Accept header with `application/vnd.{{VERSION_KEY}}+json; version={{VERSION_NUMBER}}`
 
-If you use the path_parameter strategy with resources routes, you will want to setup your routes.rb config file to capture the api version.  You can do that in a few ways.  If you have just a few api routes you might specify the path directly like this:
-```
-resources :cakes, path: '/api/v:api_version/cakes'
-```
-If you are using a lot of routes it might be better to keep them all inside a scope like this:
-```
-scope '/api/v:api_version' do
-  resources :cakes
-end
-```
+[why do this?](http://blog.steveklabnik.com/posts/2011-07-03-nobody-understands-rest-or-http#i_want_my_api_to_be_versioned)
+
+This is also the strategy taken by the minimalist gem [api-versions](https://github.com/EDMC/api-versions), which was my
+inspiration for minimizing the awesome Version Cake gem.
 
 #### Default Version
 
@@ -276,10 +225,15 @@ config.missing_version = 4
 
 #### Version String
 
-The extraction strategies use a default string key of `api_version`, but that can be changed:
+The extraction strategies depends on you to set the `version_key` config param:
+
 ```ruby
 config.version_key = "special_version_parameter_name"
 ```
+
+will result in and `ACCEPT` header format of:
+
+`application/vnd.special_version_parameter_name+json; version=1`
 
 #### Version String
 If you do not wish to use the magic mapping of the version number to templates it can be disabled:
@@ -291,7 +245,7 @@ config.rails_view_versioning = false
 
 If a client requests a specific version (or does not) and a version applies to the resource you can configure it to be in the response. Use the following configuration:
 ```ruby
-config.response_strategy = [:http_content_type, :http_header]
+config.api_view_versions.response_strategy = [:http_content_type, :http_header]
 ```
 
 ### Version your views
@@ -314,7 +268,7 @@ If you start supporting a newer version, v3 for instance, you do not have to cop
 
 ### Controller
 
-You don't need to do anything special in your controller, but if you find that you want to perform some tasks for a specific version you can use `request_version` and `version_context.resource.latest_version`. This may be updated in the [near future](https://github.com/bwillis/versioncake/issues/1).
+You don't need to do anything special in your controller, but if you find that you want to perform some tasks for a specific version you can use `request_version` and `version_context.resource.latest_version`.
 ```ruby
 def index
   # shared code for all versions
@@ -326,19 +280,20 @@ def index
   end
 end
 ```
+
 ### Client requests
 
 When a client makes a request it will automatically receive the latest supported version of the view. The client can also request for a specific version by one of the strategies configured by ``view_version_extraction_strategy``.
 
 ### Raised exceptions
 
-These are the types of exceptions VersionCake will raise:
+These are the types of exceptions ApiViewVersions will raise:
 
 |Exception type|Description|
 |--------------|-----------|
-|VersionCake::UnsupportedVersionError| The version is invalid, too high or too low for the resource.|
-|VersionCake::ObsoleteVersionError|The version is obsolete for the resource.|
-|VersionCake::MissingVersionError|If no `config.missing_version` is specified, this will be raised when no version is in the request.|
+|ApiViewVersions::UnsupportedVersionError| The version is invalid, too high or too low for the resource.|
+|ApiViewVersions::ObsoleteVersionError|The version is obsolete for the resource.|
+|ApiViewVersions::MissingVersionError|If no `config.missing_version` is specified, this will be raised when no version is in the request.|
 
 ### Handling Exceptions
 
@@ -349,7 +304,7 @@ class ApplicationController < ActionController::Base
 
   ...
 
-  rescue_from VersionCake::UnsupportedVersionError, :with => :render_unsupported_version
+  rescue_from ApiViewVersions::UnsupportedVersionError, :with => :render_unsupported_version
 
   private
 
@@ -398,10 +353,10 @@ end
 
 ### Testing all supported versions
 
-You can iterate over all of the supported version numbers by accessing the ```VersionCake.config.versioned_resources.first.available_versions```.
+You can iterate over all of the supported version numbers by accessing the ```ApiViewVersions.config.versioned_resources.first.available_versions```.
 
 ```ruby
-VersionCake.config.versioned_resources.first.available_versions.each do |supported_version|
+ApiViewVersions.config.versioned_resources.first.available_versions.each do |supported_version|
   before do
     @controller.stubs(:request_version).returns(supported_version)
   end
@@ -415,8 +370,10 @@ end
 
 # Thanks!
 
-Thanks to all those who have helped make Version Cake really sweet:
+Thanks to the original contributors and thank list from VersionCake at the time of forking:
 
+* [Ben Willis](https://github.com/bwillis) (coauthor of VersionCake)
+* [Jim Jones](https://github.com/aantix) (coauthor of VersionCake)
 * [Manilla](https://github.com/manilla)
 * [Alicia](https://github.com/alicial)
 * [Rohit](https://github.com/rg)
@@ -443,33 +400,23 @@ Thanks to all those who have helped make Version Cake really sweet:
 
 ## Usages
 
-- [Manilla](https://manilla.com) (original use case)
-- [Spree](http://spreecommerce.com/) and the [pull request](https://github.com/spree/spree/pull/2209)
+- [KIPU Health](https://kipuapi.com) (original use case)
 
 ## Libraries
 
+- https://github.com/bwillis/versioncake
+- https://github.com/EDMC/api-versions
 - https://github.com/bploetz/versionist
 - https://github.com/filtersquad/rocket_pants
 - https://github.com/lyonrb/biceps
 
-## Discussions
-
-- [Peter Williams on versioning rest web services](http://barelyenough.org/blog/2008/05/versioning-rest-web-services/)
-- [Steve Klabnik on how to version in a resful way](http://blog.steveklabnik.com/posts/2011-07-03-nobody-understands-rest-or-http#i_want_my_api_to_be_versioned)
-- [Rails API project disucssion on versioning](https://github.com/rails-api/rails-api/issues/8)
-- [Railscast on versioning](http://railscasts.com/episodes/350-rest-api-versioning)
-- [Ruby5 on versioncake](http://ruby5.envylabs.com/episodes/310-episode-306-september-18th-2012/stories/2704-version-cake)
-- [Rails core discussion](https://groups.google.com/forum/#!msg/rubyonrails-core/odwmEYYIum0/9POep66BvoMJ)
-- [RubyWeekly](http://rubyweekly.com/archive/119.html)
-- [API building tools on Ruby Toolbox](https://www.ruby-toolbox.com/categories/API_Builders)
-
 # Security issues?
 
-If you think you have a security vulnerability, please submit the issue and the details to [https://hackerone.com/versioncake](https://hackerone.com/versioncake)
+If you think you have a security vulnerability, please submit the issue and the details to github issues.
 
 # Questions?
 
-Create a bug/enhancement/question on github or contact [aantix](https://github.com/aantix) or [bwillis](https://github.com/bwillis) through github.
+Create a bug/enhancement/question on github or contact [SampsonCrowley](https://github.com/SampsonCrowley) through github.
 
 # License
 

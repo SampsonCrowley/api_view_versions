@@ -12,7 +12,7 @@ We really like when people not only discover something they want added/fixed/rem
 
 # Test Other Supported Rails versions
 
-Version Cake supports multiple versions of Rails with Appriasals. These will be automatically tested against several ruby versions on CI. If you need to debug a problem, or want to be dilegent and run all of these do the following:
+Version Cake supports multiple versions of Rails with Appraisals. These will be automatically tested against several ruby versions on CI. If you need to debug a problem, or want to be dilegent and run all of these do the following:
 
 * Install the gems for all supported Rails versions: `bundle exec appraisal install`
 * Run all the tests for the supported Rails versions: `bundle exec rake appraisal spec`

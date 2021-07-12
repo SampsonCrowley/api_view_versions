@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VersionCake::Configuration do
+describe ApiViewVersions::Configuration do
   subject(:config) { described_class.new }
 
   context '#missing_version' do
@@ -20,12 +20,8 @@ describe VersionCake::Configuration do
   end
 
   context 'by default' do
-    it 'has all extraction strategies' do
-      expect(config.extraction_strategies.map(&:class)).to match_array(
-        VersionCake::ExtractionStrategy.list(
-          :http_accept_parameter, :http_header, :request_parameter, :path_parameter, :query_parameter
-        ).map(&:class)
-      )
+    it 'requires a version_key config' do
+      expect { config.validate! }.to raise_error(ApiViewVersions::ConfigError, "vendor_string is required")
     end
   end
 end

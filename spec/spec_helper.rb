@@ -1,6 +1,8 @@
 require 'coveralls'
 Coveralls.wear!
-require 'versioncake'
+require 'api_view_versions'
+require 'api_view_versions/test_helpers'
+
 
 # We have to occasionally require test-unit because it was removed as a core
 # dependency, so have to explicitly disable it from running automatically
